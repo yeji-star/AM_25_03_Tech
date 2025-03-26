@@ -7,6 +7,7 @@ import java.util.Scanner;
 public class Main {
 
     static List<Article> articles = new ArrayList<>();
+    static List<Member> members = new ArrayList<>();
 
     public static void main(String[] args) {
 
@@ -15,6 +16,7 @@ public class Main {
         System.out.println("==프로그램 시작==");
 
         int lastArticleId = 3;
+        int lastMemberId = 3;
 
         makeTestData();
         logmakeTestData();
@@ -31,7 +33,44 @@ public class Main {
                 break;
             }
 
-            if (cmd.equals("article write")) {
+            if (cmd.equals("member join")) {
+                System.out.println("==회원가입==");
+                int id = lastMemberId + 1;
+                String regDate = Util.getOut();
+                String loginId = null;
+                while (true) {
+                    System.out.print("로그인 아이디 : ");
+                    loginId = sc.nextLine().trim();
+                    if (isJoinableLoginId(loginId) == false) {
+                        System.out.println("이미 사용중인 아이디입니다.");
+                        continue;
+                    }
+                    break;
+                }
+                String password = null;
+                while (true) {
+                    System.out.print("비밀번호 : ");
+                    password = sc.nextLine().trim();
+                    System.out.print("비밀번호 확인 : ");
+                    String passwordConfirm = sc.nextLine().trim();
+                    if (password.equals(passwordConfirm) == false) {
+                        System.out.println("비밀번호를 다시 확인해주세요.");
+                        continue;
+                    }
+                    break;
+                }
+
+                System.out.println("이름 : ");
+                String name = sc.nextLine().trim();
+
+                Member member = new Member(id, regDate, loginId, password, name);
+                members.add(member);
+
+                System.out.println(id + "번 회원이 가입되었습니다");
+                lastMemberId++;
+
+            }
+            else if (cmd.equals("article write")) {
                 System.out.println("==게시글 작성==");
                 int id = lastArticleId + 1;
                 String regDate = Util.getOut();
@@ -88,8 +127,8 @@ public class Main {
 
                 }
 
-
-            } else if (cmd.startsWith("article detail")) {
+            }
+            else if (cmd.startsWith("article detail")) {
                 System.out.println("==게시글 상세보기==");
 
                 int id = Integer.parseInt(cmd.split(" ")[2]);
@@ -106,7 +145,8 @@ public class Main {
                 System.out.println("제목 : " + foundArticle.getTitle());
                 System.out.println("내용 : " + foundArticle.getBody());
 
-            } else if (cmd.startsWith("article delete")) {
+            }
+            else if (cmd.startsWith("article delete")) {
                 System.out.println("==게시글 삭제==");
 
                 int id = Integer.parseInt(cmd.split(" ")[2]);
@@ -144,41 +184,6 @@ public class Main {
 
                 System.out.println(id + "번 게시글이 수정되었습니다");
             }
-            else if (cmd.startsWith("member join")) {
-                System.out.println("== 회원가입 ==");
-
-                System.out.print("아이디 : ");
-                String logId = sc.nextLine().trim();
-                System.out.println("아이디 중복 확인");
-                String loginId = sc.nextLine().trim();
-                if (!loginId.equals(logId)) {
-                    System.out.println("아이디가 맞지 않습니다.");
-                    continue;
-                }
-                System.out.print("비밀번호 : ");
-                String loginPw = sc.nextLine().trim();
-                System.out.print("비밀번호 확인 : ");
-                String rePw = sc.nextLine().trim();
-                if (!rePw.equals(loginPw)) {
-                    System.out.println("비밀번호가 맞지 않습니다.");
-                    continue;
-                }
-                System.out.print("닉네임 : ");
-                String nickName = sc.nextLine().trim();
-                String reDate = Util.getOut();
-                Article user = new Article(logId, reDate, loginId, loginPw, rePw, nickName);
-                articles.add(user);
-
-                System.out.println("회원가입이 되었습니다.");
-                System.out.println(reDate);
-
-            }  else if(cmd.equals("login")) {
-                System.out.print("아이디 : ");
-
-                System.out.print("비밀번호 : ");
-
-
-            }
 
             else {
                 System.out.println("사용할 수 없는 명령어입니다");
@@ -190,7 +195,17 @@ public class Main {
         sc.close();
     }
 
+    private static boolean isJoinableLoginId(String loginId) {
+        for (Member member : members) {
+            if (member.getLoginId().equals(loginId)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private static Article getArticleById(int id) {
+        //실제로 있는 글인지 아닌지 알려주는 메소드
 //        for (int i = 0; i < articles.size(); i++) {
 //            Article article = articles.get(i);
 //            if (article.getId() == id) {
@@ -218,9 +233,66 @@ public class Main {
 
     private static void logmakeTestData() {
         System.out.println("==회원 테스트 데이터 생성==");
-        articles.add(new Article("www", Util.getOut(), "www", "sdds", "sdds", "회원"));
-        articles.add(new Article("aaa", Util.getOut(), "aaa", "ffff", "ffff", "회원2"));
-        articles.add(new Article("333", Util.getOut(), "333", "xxxx", "xxxx", "회원3"));
+        members.add(new Member(1, "2024-12-12 00:00:00", "user1", "user1", "회원1"));
+        members.add(new Member(1, "2024-12-12 00:00:00", "user2", "user2", "회원2"));
+        members.add(new Member(1, "2024-12-12 00:00:00", "user3", "user3", "회원3"));
+
+    }
+}
+
+class Member {
+    private int id;
+    private String regDate;
+    private String loginId;
+    private String password;
+    private String name;
+
+    public Member(int id, String regDate, String loginId, String password, String name) {
+        this.id = id;
+        this.regDate = regDate;
+        this.loginId = loginId;
+        this.password = password;
+        this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getRegDate() {
+        return regDate;
+    }
+
+    public void setRegDate(String regDate) {
+        this.regDate = regDate;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLoginId() {
+        return loginId;
+    }
+
+    public void setLoginId(String loginId) {
+        this.loginId = loginId;
     }
 }
 
@@ -230,11 +302,7 @@ class Article {
     private String body;
     private String date;
     private String reDate;
-    private String logId;
-    private String loginId;
-    private String loginPw;
-    private String nickName;
-    private String rePw;
+
 
     public Article(int id, String date, String reDate, String title, String body) {
         this.id = id;
@@ -242,15 +310,6 @@ class Article {
         this.reDate = reDate;
         this.title = title;
         this.body = body;
-    }
-
-    public Article(String logId, String reDate, String loginId, String loginPw, String rePw, String nickName) {
-        this.logId = logId;
-        this.loginId = loginId;
-        this.loginPw = loginPw;
-        this.nickName = nickName;
-        this.reDate = reDate;
-        this.rePw = rePw;
     }
 
 
@@ -294,27 +353,6 @@ class Article {
         this.reDate = reDate;
     }
 
-    public String getLogId() {
-        return logId;
-    }
-    public void setLogId(String logId) {
-        this.logId = logId;
-    }
 
-    public String getLoginPw() {
-        return loginPw;
-    }
-
-    public void setLoginPw(String loginPw) {
-        this.loginPw = loginPw;
-    }
-
-    public String getNickName() {
-        return nickName;
-    }
-
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
-    }
 }
 
