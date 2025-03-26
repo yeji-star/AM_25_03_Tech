@@ -147,8 +147,8 @@ public class MemberController extends Controller {
     public void makeTestData() {
         System.out.println("==회원 테스트 데이터 생성==");
         members.add(new Member(1, "2024-12-12 00:00:00", "user1", "user1", "회원1"));
-        members.add(new Member(1, "2024-12-12 00:00:00", "user2", "user2", "회원2"));
-        members.add(new Member(1, "2024-12-12 00:00:00", "user3", "user3", "회원3"));
+        members.add(new Member(2, "2024-12-12 00:00:00", "user2", "user2", "회원2"));
+        members.add(new Member(3, "2024-12-12 00:00:00", "user3", "user3", "회원3"));
 
     }
 }
