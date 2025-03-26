@@ -1,4 +1,7 @@
-package org.example;
+package org.example.controller;
+
+import org.example.dto.Member;
+import org.example.Util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +11,7 @@ public class MemberController extends Controller {
     private Scanner sc;
     private List<Member> members;
     private String cmd;
+    private Member loginMenber = null;
 
     int lastMemberId = 3;
 
@@ -22,6 +26,12 @@ public class MemberController extends Controller {
         switch (actionMethodName) {
             case "join":
                 doJoin();
+                break;
+            case "login":
+                doLogin();
+                break;
+            case "logout":
+                doLogout();
                 break;
             default:
                 System.out.println("Unknown action method");
@@ -66,6 +76,68 @@ public class MemberController extends Controller {
         lastMemberId++;
     }
 
+    private void doLogin() {
+        if (isLogin()) {
+            System.out.println("이미 로그인중");
+            return;
+        }
+        System.out.println("==로그인==");
+
+        System.out.print("로그인 아이디 : ");
+        String loginId = sc.nextLine().trim();
+        System.out.print("비밀번호 : ");
+        String password = sc.nextLine().trim();
+
+        // 얘 내 회원인가? -> 사용자가 방금 입력한 로그인 아이디와 일치하는 회원이 나한테 있나?
+
+        Member member = getMemberLoginId(loginId);
+
+        if (member == null) {
+            System.out.println("일치하는 회원이 없습니다.");
+            return;
+        }
+
+        // 있어 -> 내가 알고있는 이 사람의 비번이 지금 얘가 입력한 거랑 같나?
+
+        if (member.getPassword().equals(password) == false) {
+            System.out.println("비밀번호가 틀렸습니다.");
+            return;
+        }
+
+        // 둘 다 통과한 경우
+        // 로그인 성공
+
+        loginMenber = member; // 로그인 상태 저장
+
+        System.out.printf("%s님 로그인 성공\n", loginMenber.getName());
+
+    }
+
+    private boolean isLogin() {
+        return loginMenber != null;
+    }
+
+    private void doLogout() {
+        if (!isLogin()) {
+            System.out.println("이미 로그아웃중");
+            return;
+        }
+
+        loginMenber = null;
+
+        System.out.println("로그아웃 되었습니다.");
+    }
+
+    private Member getMemberLoginId(String loginId) {
+        for (Member member : members) {
+            if (member.getLoginId().equals(loginId)) { //찾았으면 멤버를 리턴
+                return member;
+            }
+        }
+        return null;
+    }
+
+
     private boolean isJoinableLoginId(String loginId) {
         for (Member member : members) {
             if (member.getLoginId().equals(loginId)) {
@@ -78,7 +150,7 @@ public class MemberController extends Controller {
     /**
      * 테스트 데이터 생성 함수
      **/
-    void makeTestData() {
+    public void makeTestData() {
         System.out.println("==회원 테스트 데이터 생성==");
         members.add(new Member(1, "2024-12-12 00:00:00", "user1", "user1", "회원1"));
         members.add(new Member(1, "2024-12-12 00:00:00", "user2", "user2", "회원2"));

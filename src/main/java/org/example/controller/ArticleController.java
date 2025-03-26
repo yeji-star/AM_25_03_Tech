@@ -1,4 +1,7 @@
-package org.example;
+package org.example.controller;
+
+import org.example.dto.Article;
+import org.example.Util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -180,7 +183,7 @@ public class ArticleController extends Controller {
     /**
      * 테스트 데이터 생성 함수
      **/
-    void makeTestData() {
+    public void makeTestData() {
         System.out.println("==글 목록 테스트 데이터 생성==");
         articles.add(new Article(1, "2024-12-12 12:12:12", "2024-12-12 12:12:12", "제목123", "내용1"));
         articles.add(new Article(2, Util.getOut(), Util.getOut(), "제목245", "내용2"));
