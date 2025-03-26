@@ -61,6 +61,9 @@ public class MemberController {
         return true;
     }
 
+    /**
+     * 테스트 데이터 생성 함수
+     **/
     void makeTestData() {
         System.out.println("==회원 테스트 데이터 생성==");
         members.add(new Member(1, "2024-12-12 00:00:00", "user1", "user1", "회원1"));

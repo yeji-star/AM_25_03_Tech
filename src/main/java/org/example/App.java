@@ -41,7 +41,6 @@ public class App {
             //do와 show의 차이 : 데이터베이스에 영향을 미치냐 안미치냐. 저장소에 영향을 주냐 안주냐.
             if (cmd.equals("member join")) {
                 memberController.doJoin();
-
             } else if (cmd.equals("article write")) {
                 articleController.doWrite();
             } else if (cmd.startsWith("article list")) {
@@ -55,9 +54,9 @@ public class App {
             } else {
                 System.out.println("사용할 수 없는 명령어입니다");
             }
-            System.out.println("==프로그램 끝==");
-            sc.close();
-        }
 
+        }
+        System.out.println("==프로그램 끝==");
+        sc.close();
     }
 }

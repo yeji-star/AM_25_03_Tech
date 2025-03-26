@@ -94,23 +94,6 @@ public class ArticleController {
         System.out.println("내용 : " + foundArticle.getBody());
     }
 
-    private Article getArticleById(int id) {
-        //실제로 있는 글인지 아닌지 알려주는 메소드
-//        for (int i = 0; i < articles.size(); i++) {
-//            Article article = articles.get(i);
-//            if (article.getId() == id) {
-//                return article;
-//            }
-//        }
-
-        for (Article article : articles) {
-            if (article.getId() == id) {
-                return article;
-            }
-        }
-        return null;
-    }
-
     public void doDelete(String cmd) {
         System.out.println("==게시글 삭제==");
 
@@ -149,6 +132,23 @@ public class ArticleController {
         foundArticle.setReDate(Util.getOut());
 
         System.out.println(id + "번 게시글이 수정되었습니다");
+    }
+
+    private Article getArticleById(int id) {
+        //실제로 있는 글인지 아닌지 알려주는 메소드
+//        for (int i = 0; i < articles.size(); i++) {
+//            Article article = articles.get(i);
+//            if (article.getId() == id) {
+//                return article;
+//            }
+//        }
+
+        for (Article article : articles) {
+            if (article.getId() == id) {
+                return article;
+            }
+        }
+        return null;
     }
 
     /**
