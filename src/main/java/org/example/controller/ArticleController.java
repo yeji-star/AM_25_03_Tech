@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import org.example.ArticleManager.container;
 import org.example.dto.Article;
 import org.example.Util.Util;
 import org.example.dto.Member;
@@ -15,9 +16,11 @@ public class ArticleController extends Controller {
 
     int lastArticleId = 3;
 
+    List<Member> members = container.memberDao.members;
+
     public ArticleController(Scanner sc) {
         this.sc = sc;
-        articles = new ArrayList<>();
+        articles = container.articleDao.articles;
     }
 
     public void doAction(String cmd, String actionMethodName) {
@@ -95,14 +98,24 @@ public class ArticleController extends Controller {
                 return;
             }
         }
+
+        String writerName = null;
+
         //서치 키워드가 0일 경우 (아티클 리스트만 쳤을 경우)
-        System.out.println("   번호    /     날짜       /   제목     /    내용   ");
+        System.out.println("   번호    /     날짜       /     작성자       /   제목     /    내용   ");
         for (int i = searchkeyList.size() - 1; i >= 0; i--) {
             Article article = searchkeyList.get(i);
+            for (Member member : members) {
+                if (article.getMemberId() == member.getId()) {
+                    writerName = member.getName();
+                    break;
+                }
+            }
+
             if (Util.getOut().split(" ")[0].equals(article.getReDate().split(" ")[0])) {
-                System.out.printf("  %d   /    %s        /    %s     /    %s   \n", article.getId(), article.getReDate().split(" ")[1], article.getTitle(), article.getBody());
+                System.out.printf("  %d   /    %s        /    %s        /    %s     /    %s   \n", article.getId(), article.getReDate().split(" ")[1], writerName, article.getTitle(), article.getBody());
             } else {
-                System.out.printf("  %d   /    %s        /    %s     /    %s   \n", article.getId(), article.getReDate().split(" ")[0], article.getTitle(), article.getBody());
+                System.out.printf("  %d   /    %s        /    %s        /    %s     /    %s   \n", article.getId(), article.getReDate().split(" ")[0], writerName, article.getTitle(), article.getBody());
             }
 
         }
@@ -121,14 +134,19 @@ public class ArticleController extends Controller {
             return;
         }
 
-//        for(Member member :members) {
-//            //작성 이름 보이게 하고싶다
-//        }
+        String writerName = null;
+
+        for (Member member : members) {
+            if (foundArticle.getMemberId() == member.getId()) {
+                writerName = member.getName();
+                break;
+            }
+        }
 
         System.out.println("번호 : " + foundArticle.getId());
         System.out.println("작성날짜 : " + foundArticle.getDate());
         System.out.println("수정날짜 : " + foundArticle.getReDate());
-        System.out.println("작성자 : " + foundArticle.getMemberId());
+        System.out.println("작성자 : " + writerName);
         System.out.println("제목 : " + foundArticle.getTitle());
         System.out.println("내용 : " + foundArticle.getBody());
     }
@@ -145,7 +163,7 @@ public class ArticleController extends Controller {
             return;
         }
 
-        if(foundArticle.getMemberId() != loginMember.getId()) {
+        if (foundArticle.getMemberId() != loginMember.getId()) {
             System.out.println("권한 없음");
             return;
         }
@@ -166,7 +184,7 @@ public class ArticleController extends Controller {
             return;
         }
 
-        if(foundArticle.getMemberId() != loginMember.getId()) {
+        if (foundArticle.getMemberId() != loginMember.getId()) {
             System.out.println("권한 없음");
             return;
         }
@@ -208,7 +226,7 @@ public class ArticleController extends Controller {
      **/
     public void makeTestData() {
         System.out.println("==글 목록 테스트 데이터 생성==");
-        articles.add(new Article(1, "2024-12-12 12:12:12", "2024-12-12 12:12:12", 1,"제목123", "내용1"));
+        articles.add(new Article(1, "2024-12-12 12:12:12", "2024-12-12 12:12:12", 1, "제목123", "내용1"));
         articles.add(new Article(2, Util.getOut(), Util.getOut(), 1, "제목245", "내용2"));
         articles.add(new Article(3, Util.getOut(), Util.getOut(), 2, "제목8753", "내용3"));
     }

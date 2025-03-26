@@ -1,12 +1,16 @@
 package org.example.controller;
 
+import org.example.ArticleManager.container;
 import org.example.dto.Article;
 import org.example.dto.Member;
 import org.example.Util.Util;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import static java.awt.Container.*;
 
 public class MemberController extends Controller {
     private Scanner sc;
@@ -19,7 +23,7 @@ public class MemberController extends Controller {
 
     public MemberController(Scanner sc) {
         this.sc = sc;
-        members = new ArrayList<>();
+        members = container.memberDao.members;
     }
 
     public void doAction(String cmd, String actionMethodName) {
