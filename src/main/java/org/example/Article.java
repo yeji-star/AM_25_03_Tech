@@ -3,10 +3,11 @@ package org.example;
 public class Article {
 
     private int id;
+    private String reDate;
     private String title;
     private String body;
     private String date;
-    private String reDate;
+
 
 
     public Article(int id, String date, String reDate, String title, String body) {

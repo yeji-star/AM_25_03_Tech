@@ -4,18 +4,44 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class ArticleController {
-    Scanner sc;
-    int lastArticleId = 3;
+public class ArticleController extends Controller {
+    private Scanner sc;
+    private List<Article> articles;
+    private String cmd;
 
-    List<Article> articles;
+    int lastArticleId = 3;
 
     public ArticleController(Scanner sc) {
         this.sc = sc;
         articles = new ArrayList<>();
     }
 
-    public void doWrite() {
+    public void doAction(String cmd, String actionMethodName) {
+        this.cmd = cmd;
+
+        switch (actionMethodName) {
+            case "write":
+                doWrite();
+                break;
+            case "list":
+                showList();
+                break;
+            case "detail":
+                showDetail();
+                break;
+            case "delete":
+                doDelete();
+                break;
+            case "modify":
+                doModi();
+                break;
+            default:
+                System.out.println("Unknown action method");
+                break;
+        }
+    }
+
+    private void doWrite() {
         System.out.println("==게시글 작성==");
         int id = lastArticleId + 1;
         String regDate = Util.getOut();
@@ -32,7 +58,7 @@ public class ArticleController {
         lastArticleId++;
     }
 
-    public void showList(String cmd) {
+    private void showList() {
         System.out.println("==게시글 목록==");
 
         if (articles.size() == 0) {
@@ -76,7 +102,7 @@ public class ArticleController {
 
     }
 
-    public void showDetail(String cmd) {
+    private void showDetail() {
         System.out.println("==게시글 상세보기==");
 
         int id = Integer.parseInt(cmd.split(" ")[2]);
@@ -94,7 +120,7 @@ public class ArticleController {
         System.out.println("내용 : " + foundArticle.getBody());
     }
 
-    public void doDelete(String cmd) {
+    private void doDelete() {
         System.out.println("==게시글 삭제==");
 
         int id = Integer.parseInt(cmd.split(" ")[2]);
@@ -109,7 +135,7 @@ public class ArticleController {
         System.out.println(id + "번 게시글이 삭제되었습니다");
     }
 
-    public void doModi(String cmd) {
+    private void doModi() {
         System.out.println("==게시글 수정==");
 
         int id = Integer.parseInt(cmd.split(" ")[2]);
