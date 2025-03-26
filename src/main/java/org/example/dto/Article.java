@@ -1,25 +1,29 @@
 package org.example.dto;
 
-public class Article {
+public class Article extends Dto{
 
-    private int id;
-    private String reDate;
     private String title;
     private String body;
     private String date;
 
-    private Member member;
+    private int memberId;
 
-
-    public Article(int id, String date, String reDate, String title, String body) {
+    public Article(int id, String date, String reDate, int memberId, String title, String body) {
         this.id = id;
         this.date = date;
         this.reDate = reDate;
+        this.memberId = memberId;
         this.title = title;
         this.body = body;
     }
 
+    public int getMemberId() {
+        return memberId;
+    }
 
+    public void setMemberId(int memberId) {
+        this.memberId = memberId;
+    }
     public int getId() {
         return id;
     }

@@ -2,6 +2,7 @@ package org.example.controller;
 
 import org.example.dto.Article;
 import org.example.Util.Util;
+import org.example.dto.Member;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +50,7 @@ public class ArticleController extends Controller {
     private void doWrite() {
         System.out.println("==게시글 작성==");
         int id = lastArticleId + 1;
+        int memberId = loginMember.getId();
         String regDate = Util.getOut();
         String updateDate = Util.getOut();
         System.out.print("제목 : ");
@@ -56,7 +58,7 @@ public class ArticleController extends Controller {
         System.out.print("내용 : ");
         String body = sc.nextLine().trim();
 
-        Article article = new Article(id, regDate, updateDate, title, body);
+        Article article = new Article(id, regDate, updateDate, memberId, title, body);
         articles.add(article);
 
         System.out.println(id + "번 글이 작성되었습니다");
@@ -118,9 +120,15 @@ public class ArticleController extends Controller {
             System.out.println("해당 게시글은 없습니다");
             return;
         }
+
+//        for(Member member :members) {
+//            //작성 이름 보이게 하고싶다
+//        }
+
         System.out.println("번호 : " + foundArticle.getId());
         System.out.println("작성날짜 : " + foundArticle.getDate());
         System.out.println("수정날짜 : " + foundArticle.getReDate());
+        System.out.println("작성자 : " + foundArticle.getMemberId());
         System.out.println("제목 : " + foundArticle.getTitle());
         System.out.println("내용 : " + foundArticle.getBody());
     }
@@ -188,9 +196,9 @@ public class ArticleController extends Controller {
      **/
     public void makeTestData() {
         System.out.println("==글 목록 테스트 데이터 생성==");
-        articles.add(new Article(1, "2024-12-12 12:12:12", "2024-12-12 12:12:12", "제목123", "내용1"));
-        articles.add(new Article(2, Util.getOut(), Util.getOut(), "제목245", "내용2"));
-        articles.add(new Article(3, Util.getOut(), Util.getOut(), "제목8753", "내용3"));
+        articles.add(new Article(1, "2024-12-12 12:12:12", "2024-12-12 12:12:12", 1,"제목123", "내용1"));
+        articles.add(new Article(2, Util.getOut(), Util.getOut(), 2, "제목245", "내용2"));
+        articles.add(new Article(3, Util.getOut(), Util.getOut(), 3, "제목8753", "내용3"));
     }
 
 
