@@ -38,11 +38,13 @@ public class ArticleController extends Controller {
             case "modify":
                 doModi();
                 break;
+
             default:
                 System.out.println("Unknown action method");
                 break;
         }
     }
+
 
     private void doWrite() {
         System.out.println("==게시글 작성==");
@@ -163,6 +165,7 @@ public class ArticleController extends Controller {
         System.out.println(id + "번 게시글이 수정되었습니다");
     }
 
+
     private Article getArticleById(int id) {
         //실제로 있는 글인지 아닌지 알려주는 메소드
 //        for (int i = 0; i < articles.size(); i++) {
@@ -189,6 +192,7 @@ public class ArticleController extends Controller {
         articles.add(new Article(2, Util.getOut(), Util.getOut(), "제목245", "내용2"));
         articles.add(new Article(3, Util.getOut(), Util.getOut(), "제목8753", "내용3"));
     }
+
 
 }
 

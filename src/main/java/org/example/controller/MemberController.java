@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import org.example.dto.Article;
 import org.example.dto.Member;
 import org.example.Util.Util;
 
@@ -11,9 +12,10 @@ public class MemberController extends Controller {
     private Scanner sc;
     private List<Member> members;
     private String cmd;
-    private Member loginMenber = null;
 
     int lastMemberId = 3;
+
+
 
     public MemberController(Scanner sc) {
         this.sc = sc;
@@ -77,10 +79,7 @@ public class MemberController extends Controller {
     }
 
     private void doLogin() {
-        if (isLogin()) {
-            System.out.println("이미 로그인중");
-            return;
-        }
+
         System.out.println("==로그인==");
 
         System.out.print("로그인 아이디 : ");
@@ -107,26 +106,21 @@ public class MemberController extends Controller {
         // 둘 다 통과한 경우
         // 로그인 성공
 
-        loginMenber = member; // 로그인 상태 저장
+        loginMember = member; // 로그인 상태 저장
 
-        System.out.printf("%s님 로그인 성공\n", loginMenber.getName());
+        System.out.printf("%s님 로그인 성공\n", loginMember.getName());
 
-    }
-
-    private boolean isLogin() {
-        return loginMenber != null;
     }
 
     private void doLogout() {
-        if (!isLogin()) {
-            System.out.println("이미 로그아웃중");
-            return;
-        }
 
-        loginMenber = null;
+
+        loginMember = null;
 
         System.out.println("로그아웃 되었습니다.");
     }
+
+
 
     private Member getMemberLoginId(String loginId) {
         for (Member member : members) {

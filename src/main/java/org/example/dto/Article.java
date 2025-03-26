@@ -8,6 +8,7 @@ public class Article {
     private String body;
     private String date;
 
+    private Member member;
 
 
     public Article(int id, String date, String reDate, String title, String body) {
